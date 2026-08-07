@@ -12,6 +12,7 @@ function Dashboard() {
   const navigate = useNavigate();
   const [showTemplateModal, setShowTemplateModal] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState('modern');
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -39,16 +40,37 @@ function Dashboard() {
       <div className="navbar">
         <a href="/" className="nav-left">
           <div className="mark">R</div>
-          <span className="brand">Draftline</span>
+          <span className="brand">Draftline-Ai</span>
         </a>
         <div className="hidden md:flex gap-[30px]">
           <a href="#" className="text-[13.5px] font-medium text-ink">My resumes</a>
           <a href="#" className="text-[13.5px] font-medium text-slate hover:text-ink">Templates</a>
         </div>
-        <div className="nav-right">
-          <div className="w-8 h-8 rounded-full bg-amber-soft text-[#6B4E14] flex items-center justify-center font-display font-semibold text-[13px] cursor-pointer" onClick={logout} title="Sign Out">
+        <div className="nav-right relative">
+          <div 
+            className="w-8 h-8 rounded-full bg-amber-soft text-[#6B4E14] flex items-center justify-center font-display font-semibold text-[13px] cursor-pointer" 
+            onClick={() => setShowProfileMenu(!showProfileMenu)} 
+            title="Profile Menu"
+          >
             {getInitials(user?.name || user?.email)}
           </div>
+          {showProfileMenu && (
+            <div className="absolute right-0 top-10 w-48 bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-line py-2 z-50">
+              <div 
+                className="px-4 py-2 text-[13px] text-ink hover:bg-paper cursor-pointer font-medium"
+                onClick={() => navigate('/profile')}
+              >
+                View Profile
+              </div>
+              <div className="h-[1px] bg-line w-full my-1"></div>
+              <div 
+                className="px-4 py-2 text-[13px] text-red-600 hover:bg-red-50 cursor-pointer font-medium"
+                onClick={logout}
+              >
+                Sign Out
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -143,7 +165,7 @@ function Dashboard() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 
                 {/* Modern */}
                 <div 
@@ -191,6 +213,19 @@ function Dashboard() {
                      <div className="h-1 bg-line-soft rounded-[2px] mb-1.5 w-[40%]" />
                   </div>
                   <div className="text-[12.5px] font-semibold mt-2 text-center">Compact</div>
+                </div>
+
+                {/* CV */}
+                <div 
+                  onClick={() => setSelectedTemplate('cv')}
+                  className={`cursor-pointer rounded-[10px] p-2 border-2 transition-colors ${selectedTemplate === 'cv' ? 'border-teal bg-[#F7FAF9]' : 'border-transparent hover:border-line'}`}
+                >
+                  <div className="w-full h-[140px] bg-paper border border-line rounded-md p-3 flex flex-col items-center">
+                     <div className="w-6 h-6 rounded-full bg-line-soft mb-2" />
+                     <div className="h-1 bg-line-soft rounded-[2px] mb-1.5 w-[60%]" />
+                     <div className="h-1 bg-line-soft rounded-[2px] mb-1.5 w-[40%]" />
+                  </div>
+                  <div className="text-[12.5px] font-semibold mt-2 text-center">CV (With Photo)</div>
                 </div>
 
               </div>

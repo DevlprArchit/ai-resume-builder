@@ -31,8 +31,15 @@ export default async function handler(req, res) {
     
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    const text = response.text().trim().replace(/```json/g, '').replace(/```/g, '');
-    const data = JSON.parse(text);
+    const text = response.text().trim();
+    
+    // Extract JSON string using a regex to handle markdown wrappers or extraneous text
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      throw new Error("Could not parse JSON from AI response.");
+    }
+    
+    const data = JSON.parse(jsonMatch[0]);
     return res.status(200).json(data);
   } catch (error) {
     console.error("ATS Scan Error:", error);

@@ -4,6 +4,7 @@ import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import Dashboard from './pages/Dashboard';
 import Builder from './pages/Builder';
+import Profile from './pages/Profile';
 import useAuthStore from './store/useAuthStore';
 
 const ProtectedRoute = ({ children }) => {
@@ -36,6 +37,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/profile" 
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           } 
         />

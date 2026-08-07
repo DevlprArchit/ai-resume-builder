@@ -90,8 +90,20 @@ const useResumeStore = create((set, get) => ({
 
     set({ isLoading: true, error: null });
     try {
+      let defaultProfile = { name: '', email: '', phone: '', location: '', linkedin: '', github: '', image: '' };
+      try {
+        const profileRef = doc(db, 'profiles', userId);
+        const profileSnap = await getDoc(profileRef);
+        if (profileSnap.exists()) {
+          defaultProfile = { ...defaultProfile, ...profileSnap.data() };
+        }
+      } catch (err) {
+        console.warn('Could not fetch profile for default data:', err);
+      }
+
       const newResume = {
         ...defaultResumeState,
+        personalInfo: { ...defaultResumeState.personalInfo, ...defaultProfile },
         userId,
         title,
         template: templateId,

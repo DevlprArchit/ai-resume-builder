@@ -40,7 +40,7 @@ function AuthPage() {
       <div className="navbar">
         <a href="/" className="nav-left">
           <div className="mark">R</div>
-          <span className="brand">Draftline</span>
+          <span className="brand">Draftline-Ai</span>
         </a>
       </div>
 

@@ -7,7 +7,7 @@ function LandingPage() {
       <nav className="navbar">
         <div className="flex items-center gap-2">
           <div className="mark">R</div>
-          <span className="brand">Draftline</span>
+          <span className="brand">Draftline-Ai</span>
         </div>
         <div className="hidden md:flex gap-6 text-[14px] text-slate font-medium">
           <a href="#how" className="hover:text-ink transition-colors">How it works</a>
@@ -31,7 +31,7 @@ function LandingPage() {
             <div className="eyebrow">AI-assisted resume writing</div>
             <h1>Write the facts.<br/>Let the phrasing <em>catch up.</em></h1>
             <p className="lead">
-              Draftline turns rough notes into a polished, ATS-ready resume — with an AI editor that suggests rewrites in the margin, never overwrites silently, and a live preview that matches your export exactly.
+              Draftline-Ai turns rough notes into a polished, ATS-ready resume - with an AI editor that suggests rewrites in the margin, never overwrites silently, and a live preview that matches your export exactly.
             </p>
             <div className="flex gap-3 mt-8">
               <Link to="/auth" className="btn btn-primary px-6 py-3 text-[14.5px]">Start building — free</Link>
@@ -140,7 +140,7 @@ function LandingPage() {
       </main>
       
       <footer className="border-t border-line py-8 px-10 flex flex-col md:flex-row justify-between items-center text-[12px] text-slate font-mono">
-        <span>© 2026 Draftline</span>
+        <span>© 2026 Draftline-Ai</span>
         <span>Built with React & Firebase</span>
       </footer>
     </div>

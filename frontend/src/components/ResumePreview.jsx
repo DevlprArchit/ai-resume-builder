@@ -29,6 +29,10 @@ const ResumePreview = ({ data }) => {
     nameClass += "font-display font-semibold text-[17px]";
     headerClass += "font-sans font-bold text-[#0F6E64] pb-1 mb-1 mt-3";
     contactClass = "text-[8.5px] text-[#57616F] mb-[10px] ";
+  } else if (tmpl === 'cv') {
+    wrapperClass += "font-sans";
+    nameClass += "font-display font-bold text-[24px] text-left";
+    headerClass += "font-sans font-bold text-[#151E33] tracking-[0.05em] border-b-2 border-line pb-1 mb-2 mt-4";
   }
 
   // Common element styles
@@ -43,13 +47,18 @@ const ResumePreview = ({ data }) => {
       <div className="absolute top-0 left-0 right-0 h-1 bg-[repeating-linear-gradient(90deg,transparent_0_6px,#EDEFEA_6px_7px)]" />
 
       {/* Header */}
-      <header className="text-center">
-        <h1 className={nameClass}>{data.personalInfo?.name || 'Your Name'}</h1>
-        <div className={contactClass}>
-          {data.personalInfo?.email && <span>{data.personalInfo.email}</span>}
-          {data.personalInfo?.phone && <span> · {data.personalInfo.phone}</span>}
-          {data.personalInfo?.location && <span> · {data.personalInfo.location}</span>}
-          {data.personalInfo?.linkedin && <span> · {data.personalInfo.linkedin}</span>}
+      <header className={tmpl === 'cv' ? "flex items-center gap-6 border-b pb-4 mb-4" : "text-center"}>
+        {tmpl === 'cv' && data.personalInfo?.image && (
+          <img src={data.personalInfo.image} alt="Profile" className="w-20 h-20 rounded-full object-cover border-2 border-line" />
+        )}
+        <div className={tmpl === 'cv' ? "flex-1" : ""}>
+          <h1 className={nameClass}>{data.personalInfo?.name || 'Your Name'}</h1>
+          <div className={contactClass + (tmpl === 'cv' ? "text-left mt-1" : "")}>
+            {data.personalInfo?.email && <span>{data.personalInfo.email}</span>}
+            {data.personalInfo?.phone && <span> · {data.personalInfo.phone}</span>}
+            {data.personalInfo?.location && <span> · {data.personalInfo.location}</span>}
+            {data.personalInfo?.linkedin && <span> · {data.personalInfo.linkedin}</span>}
+          </div>
         </div>
       </header>
 
