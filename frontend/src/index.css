@@ -104,12 +104,16 @@
 
   /* Landing Page specific */
   .hero {
-    @apply grid gap-[60px] px-10 pt-20 pb-[90px] max-w-[1240px] mx-auto items-center;
-    grid-template-columns: 1.1fr 1fr;
+    @apply grid gap-[60px] px-6 lg:px-10 pt-16 lg:pt-20 pb-16 lg:pb-[90px] max-w-[1240px] mx-auto items-center;
   }
-  .hero h1 { @apply text-[52px] font-semibold leading-[1.08] tracking-[-0.01em]; }
+  @media (min-width: 1024px) {
+    .hero {
+      grid-template-columns: 1.1fr 1fr;
+    }
+  }
+  .hero h1 { @apply text-[40px] lg:text-[52px] font-semibold leading-[1.08] tracking-[-0.01em]; }
   .hero h1 em { @apply not-italic text-teal; }
-  .hero p.lead { @apply text-[16px] text-slate mt-5 leading-[1.6] max-w-[460px]; }
+  .hero p.lead { @apply text-[15px] lg:text-[16px] text-slate mt-5 leading-[1.6] max-w-[460px]; }
   
   .stack-paper {
     @apply w-[300px] bg-surface rounded-[3px] py-[26px] px-6 relative;
@@ -131,7 +135,7 @@
   .sp-line { @apply h-1.5 bg-line-soft rounded-[3px] mb-1.5; }
   
   .note-badge {
-    @apply absolute -right-[18px] top-[60px] bg-amber-soft border border-[#E4C988] text-[#6B4E14] text-[11px] py-2 px-3 font-mono max-w-[160px] leading-[1.4];
+    @apply absolute -right-2 lg:-right-[18px] top-[60px] bg-[#E5F0EE] border border-[#B2D4D0] text-teal-dark text-[11px] py-2 px-3 font-mono max-w-[160px] leading-[1.4];
     border-radius: 0 8px 8px 8px;
     box-shadow: 0 8px 20px rgba(0,0,0,.08);
   }
