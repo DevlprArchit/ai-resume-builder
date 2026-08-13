@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../firebase';
 import useAuthStore from '../store/useAuthStore';
 import { ArrowLeft } from 'lucide-react';
 
@@ -10,6 +11,7 @@ function Profile() {
   const { user } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [profile, setProfile] = useState({
     name: '',
     email: '',
@@ -46,12 +48,32 @@ function Profile() {
     setProfile(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const storageRef = ref(storage, `profiles/${user.uid}_${Date.now()}`);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+      setProfile(prev => ({ ...prev, image: url }));
+    } catch (err) {
+      console.error("Error uploading image:", err);
+      alert("Failed to upload image.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
     try {
       const profileRef = doc(db, 'profiles', user.uid);
-      await setDoc(profileRef, profile, { merge: true });
+      const cleanProfile = Object.fromEntries(
+        Object.entries(profile).filter(([_, v]) => v !== undefined)
+      );
+      await setDoc(profileRef, cleanProfile, { merge: true });
       alert("Profile saved successfully!");
     } catch (err) {
       console.error("Error saving profile:", err);
@@ -110,9 +132,10 @@ function Profile() {
               <input type="url" name="github" value={profile.github} onChange={handleChange} className="input-draftline" placeholder="https://github.com/johndoe" />
             </div>
             <div className="flex flex-col gap-1.5 md:col-span-2 border-t border-line pt-5 mt-2">
-              <label className="text-[12px] font-semibold text-slate">Profile Image URL (For CV Template)</label>
+              <label className="text-[12px] font-semibold text-slate">Profile Image (For CV Template)</label>
               <p className="text-[11px] text-slate-light mb-1">Only used if you select the "CV (With Photo)" template.</p>
-              <input type="url" name="image" value={profile.image} onChange={handleChange} className="input-draftline" placeholder="https://example.com/my-photo.jpg" />
+              <input type="file" accept="image/*" onChange={handleImageUpload} className="input-draftline p-2 text-[12px]" disabled={uploading} />
+              {uploading && <p className="text-[11px] text-teal">Uploading...</p>}
               {profile.image && (
                 <div className="mt-4">
                   <img src={profile.image} alt="Profile Preview" className="w-20 h-20 rounded-full object-cover border border-line" onError={(e) => e.target.style.display = 'none'} />
